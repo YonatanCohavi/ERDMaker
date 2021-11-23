@@ -32,17 +32,17 @@ namespace ERDMaker
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainControl));
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.loadEntities = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.lst_entities = new System.Windows.Forms.CheckedListBox();
             this.txt_filterEntities = new System.Windows.Forms.TextBox();
             this.lst_selected = new System.Windows.Forms.ListBox();
             this.txt_result = new System.Windows.Forms.TextBox();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +58,8 @@ namespace ERDMaker
             this.toolStripMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(1030, 25);
+            this.toolStripMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStripMenu.Size = new System.Drawing.Size(1545, 25);
             this.toolStripMenu.TabIndex = 4;
             this.toolStripMenu.Text = "toolStrip1";
             // 
@@ -66,6 +67,15 @@ namespace ERDMaker
             // 
             this.tssSeparator1.Name = "tssSeparator1";
             this.tssSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripButton1.Text = "Close";
+            this.toolStripButton1.Click += new System.EventHandler(this.tsbClose_Click);
             // 
             // loadEntities
             // 
@@ -77,74 +87,6 @@ namespace ERDMaker
             this.loadEntities.Text = "Load Entities";
             this.loadEntities.Click += new System.EventHandler(this.loadEntities_Click);
             // 
-            // lst_entities
-            // 
-            this.lst_entities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lst_entities.CheckOnClick = true;
-            this.lst_entities.FormattingEnabled = true;
-            this.lst_entities.Location = new System.Drawing.Point(3, 66);
-            this.lst_entities.Name = "lst_entities";
-            this.lst_entities.Size = new System.Drawing.Size(274, 382);
-            this.lst_entities.TabIndex = 5;
-            this.lst_entities.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lst_entities_ItemCheck);
-            // 
-            // txt_filterEntities
-            // 
-            this.txt_filterEntities.Location = new System.Drawing.Point(3, 34);
-            this.txt_filterEntities.Name = "txt_filterEntities";
-            this.txt_filterEntities.Size = new System.Drawing.Size(274, 26);
-            this.txt_filterEntities.TabIndex = 6;
-            this.txt_filterEntities.TextChanged += new System.EventHandler(this.txt_filterEntities_TextChanged);
-            // 
-            // lst_selected
-            // 
-            this.lst_selected.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lst_selected.FormattingEnabled = true;
-            this.lst_selected.Location = new System.Drawing.Point(284, 66);
-            this.lst_selected.Name = "lst_selected";
-            this.lst_selected.Size = new System.Drawing.Size(272, 381);
-            this.lst_selected.TabIndex = 7;
-            // 
-            // txt_result
-            // 
-            this.txt_result.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_result.Location = new System.Drawing.Point(562, 66);
-            this.txt_result.Multiline = true;
-            this.txt_result.Name = "txt_result";
-            this.txt_result.Size = new System.Drawing.Size(468, 382);
-            this.txt_result.TabIndex = 8;
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(40, 22);
-            this.toolStripButton1.Text = "Close";
-            this.toolStripButton1.Click += new System.EventHandler(this.tsbClose_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(284, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 20);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Selected Entities";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(558, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 20);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Diagram";
-            // 
             // toolStripButton2
             // 
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -153,16 +95,6 @@ namespace ERDMaker
             this.toolStripButton2.Size = new System.Drawing.Size(106, 22);
             this.toolStripButton2.Text = "Generate Diagram";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 487);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(447, 20);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "The Generated Diagram is designed to work with dbdiagram.io";
             // 
             // toolStripButton3
             // 
@@ -174,9 +106,86 @@ namespace ERDMaker
             this.toolStripButton3.Text = "dbdiagram.io";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
+            // lst_entities
+            // 
+            this.lst_entities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lst_entities.CheckOnClick = true;
+            this.lst_entities.FormattingEnabled = true;
+            this.lst_entities.Location = new System.Drawing.Point(4, 102);
+            this.lst_entities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lst_entities.Name = "lst_entities";
+            this.lst_entities.Size = new System.Drawing.Size(409, 571);
+            this.lst_entities.TabIndex = 5;
+            this.lst_entities.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lst_entities_ItemCheck);
+            // 
+            // txt_filterEntities
+            // 
+            this.txt_filterEntities.Location = new System.Drawing.Point(4, 52);
+            this.txt_filterEntities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txt_filterEntities.Name = "txt_filterEntities";
+            this.txt_filterEntities.Size = new System.Drawing.Size(409, 26);
+            this.txt_filterEntities.TabIndex = 6;
+            this.txt_filterEntities.TextChanged += new System.EventHandler(this.txt_filterEntities_TextChanged);
+            // 
+            // lst_selected
+            // 
+            this.lst_selected.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lst_selected.FormattingEnabled = true;
+            this.lst_selected.ItemHeight = 20;
+            this.lst_selected.Location = new System.Drawing.Point(426, 102);
+            this.lst_selected.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lst_selected.Name = "lst_selected";
+            this.lst_selected.Size = new System.Drawing.Size(406, 584);
+            this.lst_selected.TabIndex = 7;
+            // 
+            // txt_result
+            // 
+            this.txt_result.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_result.Location = new System.Drawing.Point(843, 102);
+            this.txt_result.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txt_result.Multiline = true;
+            this.txt_result.Name = "txt_result";
+            this.txt_result.Size = new System.Drawing.Size(700, 586);
+            this.txt_result.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(426, 60);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(129, 20);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Selected Entities";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(837, 66);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 20);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Diagram";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 749);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(447, 20);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "The Generated Diagram is designed to work with dbdiagram.io";
+            // 
             // MainControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -186,8 +195,10 @@ namespace ERDMaker
             this.Controls.Add(this.txt_filterEntities);
             this.Controls.Add(this.lst_entities);
             this.Controls.Add(this.toolStripMenu);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainControl";
-            this.Size = new System.Drawing.Size(1030, 507);
+            this.PluginIcon = ((System.Drawing.Icon)(resources.GetObject("$this.PluginIcon")));
+            this.Size = new System.Drawing.Size(1545, 780);
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
