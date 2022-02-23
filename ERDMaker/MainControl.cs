@@ -89,7 +89,7 @@ namespace ERDMaker
                 Message = "Loading Entities...",
                 Work = (worker, args) =>
                 {
-                    args.Result = CRMService.GetAllEntities(Service);
+                    args.Result = CRMService.RetrieveAllEntities(Service);
                 },
                 PostWorkCallBack = (args) =>
                 {
@@ -152,23 +152,27 @@ namespace ERDMaker
             }
             WorkAsync(new WorkAsyncInfo
             {
-                Message = "Generating Diagram",
+                Message = "Generating DBML",
                 Work = (worker, args) =>
                 {
-                    var tables = CRMService.MapTables(Service, _selectedEntities);
-                    var diagram = DiagramBuilder.StringifyTables(tables);
+                    var tables = CRMService.DefineTables(Service, _selectedEntities);
+                    var optionsSets = CRMService.DefineEnums();
+                    var elements = new[] { tables, optionsSets }.Where(x => x != null).SelectMany(x => x);
+
+                    var diagram = DiagramBuilder.StringifySchema(elements);
+
                     args.Result = diagram;
                 },
                 PostWorkCallBack = (args) =>
                 {
                     if (args.Error != null)
                     {
-                        MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(args.Error.ToString(), @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     var result = args.Result as string;
                     txt_result.Text = result;
                     Clipboard.SetText(result);
-                    MessageBox.Show($"The Diagram was copied to the clipboard");
+                    MessageBox.Show($"The DBML was copied to the clipboard");
                 }
             });
         }

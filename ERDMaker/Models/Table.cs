@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ERDMaker.Models
 {
-    public class Table
+    public class SchemaDefinition { }
+
+    public class Table : SchemaDefinition
     {
         public string Name { get; set; }
         public string Alias { get; set; }

@@ -14,5 +14,32 @@ namespace ERDMaker.Services
                 Type = GetAttributeTypeName(attribute.AttributeType)
             };
         }
+
+        public static Field FieldFromAttribute(PicklistAttributeMetadata attribute)
+        {
+            return new Field
+            {
+                Name = attribute.LogicalName,
+                Type = $"{attribute.OptionSet.Name}_enum"
+            };
+        }
+
+        public static Field FieldFromManyToManyRelationship(ManyToManyRelationshipMetadata manyToManyRelationship)
+        {
+            return new Field
+            {
+                Name = manyToManyRelationship.SchemaName,
+                Type = manyToManyRelationship.IntersectEntityName
+            };
+        }
+
+        public static Field FieldFromOneToManyRelationship(OneToManyRelationshipMetadata oneToManyRelationship)
+        {
+            return new Field
+            {
+                Name = oneToManyRelationship.SchemaName,
+                Type = oneToManyRelationship.ReferencedEntity
+            };
+        }
     }
 }
