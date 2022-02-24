@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ERDMaker.Models
 {
-    public class Field
+ public class Field
     {
         public string Name { get; set; }
         public string Type { get; set; }

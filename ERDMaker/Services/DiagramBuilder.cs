@@ -2,37 +2,57 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ERDMaker.Services
 {
-    public class DiagramBuilder
+    public static class DiagramBuilder
     {
-        public static string StringifyTable(Table table)
+        internal static string StringifySchema(IEnumerable<SchemaDefinition> definitions)
         {
-            var references = new List<string>();
-
-            var lines = new List<string>
-            {
-                $"Table {table.Name} {{"
-            };
-            foreach (var field in table.Fields)
-            {
-                lines.Add($"\t{field.Name} {field.Type} {field.Decoration}");
-                foreach (var reference in field.References)
-                {
-                    references.Add($"Ref: {table.Name}.{field.Name} > {reference}");
-                }
-            }
-            lines.Add("}");
-            lines.AddRange(references);
-            lines.Add(Environment.NewLine);
-            return string.Join(Environment.NewLine, lines);
+            var definitionStrings = definitions.Select(StringifyElement);
+            return string.Join(Environment.NewLine, definitionStrings);
         }
 
-        internal static string StringifyTables(IEnumerable<Table> tables)
+        private static string StringifyElement(SchemaDefinition definition)
         {
-            var tablesStrings = tables.Select(StringifyTable);
-            return string.Join("", tablesStrings);
+            switch (definition)
+            {
+                case OptionSet p:
+                    return StringifyOptionSet(p);
+                case Table t:
+                    return StringifyTable(t);
+            }
+
+            throw new ArgumentOutOfRangeException(definition.GetType().Name);
+        }
+
+        private static string StringifyOptionSet(OptionSet optionSet)
+        {
+            var optionSetBuilder = new StringBuilder();
+
+            optionSetBuilder.AppendLine($"Enum {optionSet.Name}_enum {{");
+            foreach (var value in optionSet.Values)
+            {
+                optionSetBuilder.AppendLine($"\t\"{value}\"");
+            }
+            optionSetBuilder.AppendLine("}");
+
+            return optionSetBuilder.ToString();
+        }
+
+        private static string StringifyTable(Table table)
+        {
+            var tableBuilder = new StringBuilder();
+
+            tableBuilder.AppendLine($"Table {table.Name} {{");
+            foreach (var field in table.Fields)
+            {
+                tableBuilder.AppendLine($"\t{field.Name} {field.Type} {field.Decoration}".TrimEnd());
+            }
+            tableBuilder.AppendLine("}");
+
+            return tableBuilder.ToString();
         }
     }
 }

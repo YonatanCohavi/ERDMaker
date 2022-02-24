@@ -15,5 +15,8 @@ namespace ERDMaker
     public class Settings
     {
         public string LastUsedOrganizationWebappUrl { get; set; }
+        public bool GenerateFields { get; set; }
+        public bool GenerateOptionSets { get; set; }
+        public bool GenerateRelationships { get; set; }
     }
 }
