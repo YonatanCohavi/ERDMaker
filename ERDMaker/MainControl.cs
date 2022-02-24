@@ -155,7 +155,7 @@ namespace ERDMaker
                 Message = "Generating DBML",
                 Work = (worker, args) =>
                 {
-                    var tables = CRMService.DefineTables(Service, _selectedEntities);
+                    var tables = CRMService.DefineTables(Service, _selectedEntities, mySettings);
                     var optionsSets = CRMService.DefineEnums();
                     var elements = new[] { tables, optionsSets }.Where(x => x != null).SelectMany(x => x);
 
@@ -180,6 +180,21 @@ namespace ERDMaker
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://dbdiagram.io/");
+        }
+
+        private void cb_generateFields_CheckedChanged(object sender, EventArgs e)
+        {
+            mySettings.GenerateFields = cb_generateFields.Checked;
+        }
+
+        private void cb_generateOptionSets_CheckedChanged(object sender, EventArgs e)
+        {
+            mySettings.GenerateOptionSets = cb_generateOptionSets.Checked;
+        }
+
+        private void cb_generateRelationships_CheckedChanged(object sender, EventArgs e)
+        {
+            mySettings.GenerateRelationships = cb_generateRelationships.Checked;
         }
     }
 }

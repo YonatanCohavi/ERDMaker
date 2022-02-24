@@ -43,7 +43,13 @@ namespace ERDMaker
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cb_generateFields = new System.Windows.Forms.CheckBox();
+            this.cb_generateOptionSets = new System.Windows.Forms.CheckBox();
+            this.cb_generateRelationships = new System.Windows.Forms.CheckBox();
+            this.gb_settings = new System.Windows.Forms.GroupBox();
             this.toolStripMenu.SuspendLayout();
+            this.gb_settings.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -58,8 +64,7 @@ namespace ERDMaker
             this.toolStripMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStripMenu.Size = new System.Drawing.Size(1545, 25);
+            this.toolStripMenu.Size = new System.Drawing.Size(1030, 25);
             this.toolStripMenu.TabIndex = 4;
             this.toolStripMenu.Text = "toolStrip1";
             // 
@@ -112,19 +117,17 @@ namespace ERDMaker
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lst_entities.CheckOnClick = true;
             this.lst_entities.FormattingEnabled = true;
-            this.lst_entities.Location = new System.Drawing.Point(4, 102);
-            this.lst_entities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lst_entities.Location = new System.Drawing.Point(7, 184);
             this.lst_entities.Name = "lst_entities";
-            this.lst_entities.Size = new System.Drawing.Size(409, 571);
+            this.lst_entities.Size = new System.Drawing.Size(271, 289);
             this.lst_entities.TabIndex = 5;
             this.lst_entities.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lst_entities_ItemCheck);
             // 
             // txt_filterEntities
             // 
-            this.txt_filterEntities.Location = new System.Drawing.Point(4, 52);
-            this.txt_filterEntities.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txt_filterEntities.Location = new System.Drawing.Point(7, 158);
             this.txt_filterEntities.Name = "txt_filterEntities";
-            this.txt_filterEntities.Size = new System.Drawing.Size(409, 26);
+            this.txt_filterEntities.Size = new System.Drawing.Size(271, 20);
             this.txt_filterEntities.TabIndex = 6;
             this.txt_filterEntities.TextChanged += new System.EventHandler(this.txt_filterEntities_TextChanged);
             // 
@@ -133,11 +136,9 @@ namespace ERDMaker
             this.lst_selected.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lst_selected.FormattingEnabled = true;
-            this.lst_selected.ItemHeight = 20;
-            this.lst_selected.Location = new System.Drawing.Point(426, 102);
-            this.lst_selected.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lst_selected.Location = new System.Drawing.Point(284, 184);
             this.lst_selected.Name = "lst_selected";
-            this.lst_selected.Size = new System.Drawing.Size(406, 584);
+            this.lst_selected.Size = new System.Drawing.Size(272, 290);
             this.lst_selected.TabIndex = 7;
             // 
             // txt_result
@@ -145,48 +146,99 @@ namespace ERDMaker
             this.txt_result.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_result.Location = new System.Drawing.Point(843, 102);
-            this.txt_result.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txt_result.Location = new System.Drawing.Point(562, 184);
             this.txt_result.Multiline = true;
             this.txt_result.Name = "txt_result";
-            this.txt_result.Size = new System.Drawing.Size(700, 586);
+            this.txt_result.Size = new System.Drawing.Size(457, 290);
             this.txt_result.TabIndex = 8;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(426, 60);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(284, 165);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 20);
+            this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Selected Entities";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(837, 66);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(559, 165);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 20);
+            this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 10;
-            this.label2.Text = "Diagram";
+            this.label2.Text = "DBML";
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 749);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(417, 72);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(447, 20);
+            this.label3.Size = new System.Drawing.Size(300, 13);
             this.label3.TabIndex = 11;
             this.label3.Text = "The Generated Diagram is designed to work with dbdiagram.io";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(4, 135);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Entity Filter";
+            // 
+            // cb_generateFields
+            // 
+            this.cb_generateFields.AutoSize = true;
+            this.cb_generateFields.Location = new System.Drawing.Point(16, 21);
+            this.cb_generateFields.Name = "cb_generateFields";
+            this.cb_generateFields.Size = new System.Drawing.Size(100, 17);
+            this.cb_generateFields.TabIndex = 16;
+            this.cb_generateFields.Text = "Generate Fields";
+            this.cb_generateFields.UseVisualStyleBackColor = true;
+            this.cb_generateFields.CheckedChanged += new System.EventHandler(this.cb_generateFields_CheckedChanged);
+            // 
+            // cb_generateOptionSets
+            // 
+            this.cb_generateOptionSets.AutoSize = true;
+            this.cb_generateOptionSets.Location = new System.Drawing.Point(16, 44);
+            this.cb_generateOptionSets.Name = "cb_generateOptionSets";
+            this.cb_generateOptionSets.Size = new System.Drawing.Size(128, 17);
+            this.cb_generateOptionSets.TabIndex = 17;
+            this.cb_generateOptionSets.Text = "Generate Option Sets";
+            this.cb_generateOptionSets.UseVisualStyleBackColor = true;
+            this.cb_generateOptionSets.CheckedChanged += new System.EventHandler(this.cb_generateOptionSets_CheckedChanged);
+            // 
+            // cb_generateRelationships
+            // 
+            this.cb_generateRelationships.AutoSize = true;
+            this.cb_generateRelationships.Location = new System.Drawing.Point(16, 67);
+            this.cb_generateRelationships.Name = "cb_generateRelationships";
+            this.cb_generateRelationships.Size = new System.Drawing.Size(136, 17);
+            this.cb_generateRelationships.TabIndex = 18;
+            this.cb_generateRelationships.Text = "Generate Relationships";
+            this.cb_generateRelationships.UseVisualStyleBackColor = true;
+            this.cb_generateRelationships.CheckedChanged += new System.EventHandler(this.cb_generateRelationships_CheckedChanged);
+            // 
+            // gb_settings
+            // 
+            this.gb_settings.Controls.Add(this.cb_generateOptionSets);
+            this.gb_settings.Controls.Add(this.cb_generateRelationships);
+            this.gb_settings.Controls.Add(this.cb_generateFields);
+            this.gb_settings.Location = new System.Drawing.Point(7, 28);
+            this.gb_settings.Name = "gb_settings";
+            this.gb_settings.Size = new System.Drawing.Size(200, 100);
+            this.gb_settings.TabIndex = 19;
+            this.gb_settings.TabStop = false;
+            this.gb_settings.Text = "Settings";
+            // 
             // MainControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.gb_settings);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -195,13 +247,14 @@ namespace ERDMaker
             this.Controls.Add(this.txt_filterEntities);
             this.Controls.Add(this.lst_entities);
             this.Controls.Add(this.toolStripMenu);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainControl";
             this.PluginIcon = ((System.Drawing.Icon)(resources.GetObject("$this.PluginIcon")));
-            this.Size = new System.Drawing.Size(1545, 780);
+            this.Size = new System.Drawing.Size(1030, 498);
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
+            this.gb_settings.ResumeLayout(false);
+            this.gb_settings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,5 +274,10 @@ namespace ERDMaker
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox cb_generateFields;
+        private System.Windows.Forms.CheckBox cb_generateOptionSets;
+        private System.Windows.Forms.CheckBox cb_generateRelationships;
+        private System.Windows.Forms.GroupBox gb_settings;
     }
 }

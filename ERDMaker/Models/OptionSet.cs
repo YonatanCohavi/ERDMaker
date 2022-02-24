@@ -16,7 +16,7 @@ namespace ERDMaker.Models
             enumBuilder.AppendLine($"Enum {this.Name}_enum {{");
             foreach (var value in this.Values)
             {
-                enumBuilder.AppendLine($"\t\"{value}\"");
+                enumBuilder.AppendLine($"\t\"{value.Replace("\"","'")}\"");
             }
             enumBuilder.AppendLine("}");
 

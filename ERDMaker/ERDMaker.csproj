@@ -270,6 +270,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\OptionSet.cs" />
     <Compile Include="Models\Table.cs" />
@@ -290,7 +291,6 @@
     <Compile Include="Services\CRMService.cs" />
     <Compile Include="Services\DebounceDispatcher.cs" />
     <Compile Include="Services\DiagramBuilder.cs" />
-    <Compile Include="Services\ExtensionMethods.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

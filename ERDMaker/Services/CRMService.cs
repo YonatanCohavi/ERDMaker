@@ -14,7 +14,7 @@ namespace ERDMaker.Services
         private static readonly Dictionary<string, EntityMetadata> MetadataCache = new Dictionary<string, EntityMetadata>();
         private static readonly Dictionary<string, OptionSetMetadata> OptionSets = new Dictionary<string, OptionSetMetadata>();
 
-        private static readonly List<Predicate<AttributeMetadata>> FieldPredicates = new List<Predicate<AttributeMetadata>>
+        private static readonly List<Predicate<AttributeMetadata>> FieldPredicates = new List<Predicate<AttributeMetadata>>()
         {
             a => a.AttributeType != AttributeTypeCode.Picklist,
             a => a.AttributeType != AttributeTypeCode.Virtual,
@@ -32,33 +32,6 @@ namespace ERDMaker.Services
             return response.EntityMetadata.Select(md => md.LogicalName).ToArray();
         }
 
-        internal static IEnumerable<SchemaDefinition> DefineTables(IOrganizationService service, ICollection<string> relevantTables)
-        {
-            foreach (var relevantTable in relevantTables)
-                RetrieveEntityMetadata(service, relevantTable);
-
-            foreach (var relevantTable in relevantTables)
-                yield return DefineTable(service, relevantTable, relevantTables);
-        }
-
-        private static Table DefineTable(IOrganizationService service, string entity, ICollection<string> relevantTables)
-        {
-            var metadata = RetrieveEntityMetadata(service, entity);
-            var table = new Table
-            {
-                Name = entity,
-                Alias = entity,
-            };
-
-            DefinePrimaryKey(metadata, table);
-            DefineFields(metadata, table);
-            DefinePickLists(metadata, table);
-            DefineOneToManyRelationships(relevantTables, metadata, table);
-            DefineManyToManyRelationships(relevantTables, metadata, table);            
-
-            return table;
-        }
-        
         internal static IEnumerable<SchemaDefinition> DefineEnums()
         {
             return OptionSets.Values.Select(DefineOptionSet);
@@ -70,28 +43,50 @@ namespace ERDMaker.Services
             {
                 Name = optionSet.Name
             };
-            
+
             optionSetDefinition.Values.AddRange(optionSet.Options.Select(option => option.Label.UserLocalizedLabel.Label));
 
-            // foreach (var option in optionSet.Options)
-            // {
-            //     optionSetDefinition.Values.Add(option.Label.UserLocalizedLabel.Label);
-            // }
-
             return optionSetDefinition;
-        }        
-        
-        private static void DefinePickLists(EntityMetadata metadata,
-            Table table)
-        {
-            var picklists = metadata.Attributes.Where(a => a.AttributeType == AttributeTypeCode.Picklist && a.IsCustomAttribute == true).Cast<PicklistAttributeMetadata>();
-            foreach (var picklist in picklists)
-            {
-                if (!OptionSets.ContainsKey(picklist.OptionSet.Name))                
-                    OptionSets.Add(picklist.OptionSet.Name, picklist.OptionSet);
+        }
 
-                table.Fields.Add(Adapter.FieldFromAttribute(picklist));
+        internal static IEnumerable<SchemaDefinition> DefineTables(IOrganizationService service, ICollection<string> relevantTables, Settings settings)
+        {
+            foreach (var relevantTable in relevantTables)
+                RetrieveEntityMetadata(service, relevantTable);
+
+            foreach (var relevantTable in relevantTables)
+                yield return DefineTable(service, relevantTable, relevantTables, settings);
+        }
+
+        private static Table DefineTable(IOrganizationService service, string entity, ICollection<string> relevantTables, Settings settings)
+        {
+            var metadata = RetrieveEntityMetadata(service, entity);
+            var table = new Table
+            {
+                Name = entity,
+                Alias = entity,
+            };
+
+            DefinePrimaryKey(metadata, table);
+            if (settings.GenerateFields)             
+                DefineFields(metadata, table);
+            if (settings.GenerateOptionSets)
+                DefinePickLists(metadata, table);
+            if (settings.GenerateRelationships)
+            {
+                DefineOneToManyRelationships(relevantTables, metadata, table);
+                DefineManyToManyRelationships(relevantTables, metadata, table);
             }
+
+            return table;
+        }
+
+        private static void DefinePrimaryKey(EntityMetadata metadata, Table table)
+        {
+            var attribute = metadata.Attributes.Single(a => a.LogicalName == metadata.PrimaryIdAttribute);
+            var fieldFromAttribute = Adapter.FieldFromAttribute(attribute);
+            fieldFromAttribute.Decoration = "[pk]";
+            table.Fields.Add(fieldFromAttribute);
         }
 
         private static void DefineFields(EntityMetadata metadata, Table table)
@@ -105,6 +100,19 @@ namespace ERDMaker.Services
                     fieldFromAttribute.Decoration = "[pk]";
 
                 table.Fields.Add(fieldFromAttribute);
+            }
+        }
+
+        private static void DefinePickLists(EntityMetadata metadata,
+            Table table)
+        {
+            var picklists = metadata.Attributes.Where(a => a.AttributeType == AttributeTypeCode.Picklist && a.IsCustomAttribute == true).Cast<PicklistAttributeMetadata>();
+            foreach (var picklist in picklists)
+            {
+                if (!OptionSets.ContainsKey(picklist.OptionSet.Name))
+                    OptionSets.Add(picklist.OptionSet.Name, picklist.OptionSet);
+
+                table.Fields.Add(Adapter.FieldFromAttribute(picklist));
             }
         }
 
@@ -144,14 +152,6 @@ namespace ERDMaker.Services
 
                 table.Fields.Add(field);
             }
-        }
-
-        private static void DefinePrimaryKey(EntityMetadata metadata, Table table)
-        {
-            var field = metadata.Attributes.Single(f => f.IsPrimaryId == true);
-            var fieldFromAttribute = Adapter.FieldFromAttribute(field);
-            fieldFromAttribute.Decoration = "[pk]";
-            table.Fields.Add(fieldFromAttribute);
         }
 
         private static EntityMetadata RetrieveEntityMetadata(IOrganizationService service, string entity)
