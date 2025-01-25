@@ -1,28 +1,26 @@
 ﻿using ERDMaker.Services;
 using McTools.Xrm.Connection;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
+using XrmToolBox.Extensibility.Args;
+using XrmToolBox.Extensibility.Interfaces;
 
 namespace ERDMaker
 {
-    public partial class MainControl : PluginControlBase
+    public partial class MainControl : PluginControlBase, IStatusBarMessenger
     {
         private const int MAX_RECOMENDED = 15;
         private Settings mySettings;
         private ICollection<string> _allEntities = new List<string>();
         private readonly DebounceDispatcher debounceTimer = new DebounceDispatcher();
         private HashSet<string> _selectedEntities = new HashSet<string>();
+
+        public event EventHandler<StatusBarMessageEventArgs> SendMessageToStatusBar;
 
         public MainControl()
         {
@@ -44,6 +42,7 @@ namespace ERDMaker
             {
                 LogInfo("Settings found and loaded");
             }
+            ExecuteMethod(LoadEntities);
         }
 
         private void tsbClose_Click(object sender, EventArgs e)
@@ -135,9 +134,17 @@ namespace ERDMaker
                 _selectedEntities.Remove(item);
             lst_selected.Items.Clear();
             lst_selected.Items.AddRange(_selectedEntities.OrderBy(i => i).ToArray());
-        }
+            if (_selectedEntities.Count >= 2)
+                GenerateDiagram();
+            else
+                txt_result.Text = string.Empty;
 
+        }
         private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            GenerateDiagram();
+        }
+        private void GenerateDiagram()
         {
             if (_selectedEntities.Count < 2)
             {
@@ -168,7 +175,7 @@ namespace ERDMaker
                     var result = args.Result as string;
                     txt_result.Text = result;
                     Clipboard.SetText(result);
-                    MessageBox.Show($"The Diagram was copied to the clipboard");
+                    SendMessageToStatusBar?.Invoke(this, new StatusBarMessageEventArgs($"The Diagram was copied to the clipboard"));
                 }
             });
         }
@@ -176,6 +183,22 @@ namespace ERDMaker
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://dbdiagram.io/");
+        }
+
+        private void lst_selected_DoubleClick(object sender, EventArgs e)
+        {
+            if (lst_selected.SelectedItem == null)
+                return;
+
+            var index = lst_entities.Items.IndexOf(lst_selected.SelectedItem);
+            if (index > -1)
+                lst_entities.SetItemCheckState(index, CheckState.Unchecked);
+            lst_selected.Items.Remove(lst_selected.SelectedItem);
+            _selectedEntities.Remove(lst_selected.SelectedItem as string);
+            if (_selectedEntities.Count >= 2)
+                GenerateDiagram();
+            else
+                txt_result.Text = string.Empty;
         }
     }
 }

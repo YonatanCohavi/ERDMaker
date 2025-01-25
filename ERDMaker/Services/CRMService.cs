@@ -41,10 +41,9 @@ namespace ERDMaker.Services
             };
             var primaryId = metadata.Attributes.Single(a => a.LogicalName == metadata.PrimaryIdAttribute);
             var primaryKey = Adapter.FieldFromAttribute(primaryId);
-            primaryKey.Decoration = "[pk]";
+            primaryKey.Decoration = "pk";
             table.Fields.Add(primaryKey);
-
-            var lookups = metadata.Attributes.Where(a => a.AttributeType == AttributeTypeCode.Lookup).Cast<LookupAttributeMetadata>();
+            var lookups = metadata.Attributes.OfType<LookupAttributeMetadata>().ToArray();
             foreach (var lookup in lookups)
             {
                 var targets = lookup.Targets.Intersect(relevantTables);

@@ -9,22 +9,20 @@ namespace ERDMaker.Services
     {
         public static string StringifyTable(Table table)
         {
-            var references = new List<string>();
-
             var lines = new List<string>
             {
                 $"Table {table.Name} {{"
             };
             foreach (var field in table.Fields)
             {
-                lines.Add($"\t{field.Name} {field.Type} {field.Decoration}");
-                foreach (var reference in field.References)
-                {
-                    references.Add($"Ref: {table.Name}.{field.Name} > {reference}");
-                }
+                var notes = field.References
+                    .Select(x => $"ref: > {x}")
+                    .Append(field.Decoration)
+                    .Where(x => !string.IsNullOrEmpty(x));
+                var notesString = notes.Any() ? $"[{string.Join(", ", notes)}]" : string.Empty;
+                lines.Add($"\t{field.Name} {field.Type} {notesString}");
             }
             lines.Add("}");
-            lines.AddRange(references);
             lines.Add(Environment.NewLine);
             return string.Join(Environment.NewLine, lines);
         }
